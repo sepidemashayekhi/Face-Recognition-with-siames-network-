@@ -1,19 +1,16 @@
 from matplotlib import image
 from tensorflow.keras.models import load_model 
-# from tensorflow.keras.preprocessing.image import img_to_array,load_img
+from tensorflow.keras.preprocessing.image import img_to_array,load_img
+from l1Dist import  L1Dist
 import cv2 
 import numpy as np 
 import os 
 import tensorflow as tf 
-class L1Dist(tf.keras.layers.Layer):
-    def __init__(self, **kwargs):
-        super().__init__()
-    def call(self, input_embedding, validation_embedding):
-        return tf.math.abs(input_embedding - validation_embedding)
+
 
 model =load_model('my_model.h5', 
                    custom_objects={'L1Dist':L1Dist, 'BinaryCrossentropy':tf.losses.BinaryCrossentropy})
-
+print('load model ....')
 
 def process(image_path):
     image=tf.io.read_file(image_path)
